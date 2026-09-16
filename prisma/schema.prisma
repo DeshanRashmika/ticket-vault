@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  ORGANIZER
+  STAFF
+  CUSTOMER
+}
+
+enum TicketStatus {
+  PENDING
+  ISSUED
+  CHECKED_IN
+  CANCELLED
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  role      Role     @default(CUSTOMER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  events  Event[]  @relation("OrganizerEvents")
+  tickets Ticket[]
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  location    String
+  eventDate   DateTime
+  organizerId String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  organizer User     @relation("OrganizerEvents", fields: [organizerId], references: [id])
+  tickets   Ticket[]
+}
+
+model Ticket {
+  id            String       @id @default(cuid())
+  eventId       String
+  userId        String
+  status        TicketStatus @default(PENDING)
+  qrCodePayload String?      @unique
+  price         Float
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  event Event @relation(fields: [eventId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
+
+  @@index([qrCodePayload])
+}
