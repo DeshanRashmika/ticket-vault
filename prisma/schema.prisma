@@ -38,7 +38,7 @@ model Event {
   title       String
   description String?
   location    String
-  eventDate   DateTime
+  date        DateTime
   organizerId String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
