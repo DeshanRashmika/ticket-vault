@@ -32,11 +32,11 @@ export default function RootLayout({
         <header className="sticky top-0 z-50 backdrop-blur-md bg-slate-950/80 border-b border-slate-800/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
             <Link href="/" className="flex items-center gap-2 font-bold text-xl tracking-tight">
-              <span className="p-2 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-lg text-white text-xs">
-                
+              <span className="p-2 bg-gradient-to-tr rounded-lg text-white text-xs">
+
               </span>
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-slate-400">
-                Ticket<span className="text-blue-500">Vault</span>
+                Ticket<span className="text-blue-500"> Vault</span>
               </span>
             </Link>
 
@@ -46,6 +46,9 @@ export default function RootLayout({
                 className="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition"
               >
                 Events
+              </Link>
+              <Link href="/my-tickets" className="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition">
+                My Tickets
               </Link>
               <Link
                 href="/dashboard"
@@ -64,6 +67,9 @@ export default function RootLayout({
                 className="px-4 py-2 rounded-lg bg-gradient-to-r text-white font-semibold shadow-lg shadow-blue-500/20 transition flex items-center gap-1.5"
               >
                 <span></span> Gate Scan
+              </Link>
+              <Link href="/profile" className="px-3 py-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800/60 transition flex items-center gap-1">
+                 Profile
               </Link>
             </nav>
           </div>

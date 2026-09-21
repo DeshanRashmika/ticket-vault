@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { TicketStatus } from "@prisma/client";
 import Link from "next/link";
 
-export const revalidate = 0; 
+export const revalidate = 0;
 
 export default async function DashboardPage() {
   const [totalEvents, totalTickets, totalCheckedIn, events] = await Promise.all([
@@ -37,7 +37,7 @@ export default async function DashboardPage() {
               Real-time event overview, ticket issuance & gate attendance analytics.
             </p>
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-7">
             <Link
               href="/events/new"
               className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-semibold transition"
@@ -50,11 +50,14 @@ export default async function DashboardPage() {
             >
               + Issue Ticket
             </Link>
+
+          </div>
+          <div className="flex gap-3">
             <Link
               href="/scan"
-              className="px-4 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm font-semibold transition"
+              className="px-4 py-2 bg-blue-200 hover:bg-blue-400 rounded-lg text-sm font-semibold transition text-slate-900"
             >
-              📷 Gate Scanner
+              Gate Scanner
             </Link>
           </div>
         </div>
@@ -63,22 +66,22 @@ export default async function DashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="p-5 bg-slate-800/80 rounded-2xl border border-slate-700">
             <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Total Events</span>
-            <div className="text-3xl font-extrabold mt-2 text-blue-400">{totalEvents}</div>
+            <div className="text-3xl font-extrabold mt-2 text-amber-50">{totalEvents}</div>
           </div>
 
           <div className="p-5 bg-slate-800/80 rounded-2xl border border-slate-700">
             <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Tickets Issued</span>
-            <div className="text-3xl font-extrabold mt-2 text-indigo-400">{totalTickets}</div>
+            <div className="text-3xl font-extrabold mt-2 text-amber-50">{totalTickets}</div>
           </div>
 
           <div className="p-5 bg-slate-800/80 rounded-2xl border border-slate-700">
             <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Checked-In</span>
-            <div className="text-3xl font-extrabold mt-2 text-green-400">{totalCheckedIn}</div>
+            <div className="text-3xl font-extrabold mt-2 text-amber-50">{totalCheckedIn}</div>
           </div>
 
           <div className="p-5 bg-slate-800/80 rounded-2xl border border-slate-700">
             <span className="text-xs uppercase font-bold text-slate-400 tracking-wider">Turnout Rate</span>
-            <div className="text-3xl font-extrabold mt-2 text-amber-400">{checkInRate}%</div>
+            <div className="text-3xl font-extrabold mt-2 text-amber-50">{checkInRate}%</div>
           </div>
         </div>
 
