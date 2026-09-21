@@ -89,7 +89,7 @@ function MyTicketsForm() {
     <div className="max-w-5xl mx-auto space-y-8">
       {/* Search Header */}
       <div className="bg-slate-900 border border-slate-800 p-6 sm:p-8 rounded-2xl shadow-xl text-center">
-        <h1 className="text-3xl font-extrabold text-white">🎟️ My Ticket Wallet</h1>
+        <h1 className="text-3xl font-extrabold text-white"> My Ticket Wallet</h1>
         <p className="text-slate-400 text-sm mt-2 max-w-lg mx-auto">
           Enter your registered Email or User ID to access your cryptographically signed event passes.
         </p>
