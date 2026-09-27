@@ -1,15 +1,29 @@
 "use client";
 
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 export default function ProfilePage() {
+  const { data: session, update } = useSession();
   const [user, setUser] = useState({
-    name: "Deshan Rashmika",
-    email: "deshan@ticketvault.com",
-    role: "ORGANIZER", // ATTENDEE | ORGANIZER | GATEKEEPER
+    name: "",
+    email: "",
+    role: "ATTENDEE",
     memberSince: "March 2026",
   });
+
+  const [syncedSession, setSyncedSession] = useState<unknown>(null);
+
+  if (session?.user && session !== syncedSession) {
+    setSyncedSession(session);
+    setUser({
+      name: session.user.name || "",
+      email: session.user.email || "",
+      role: (session.user as { role?: string }).role || "ATTENDEE",
+      memberSince: "March 2026",
+    });
+  }
 
   const [settings, setSettings] = useState({
     emailNotifications: true,
@@ -18,17 +32,34 @@ export default function ProfilePage() {
   });
 
   const [isSaved, setIsSaved] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleProfileUpdate = (e: React.FormEvent) => {
+  const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
-  };
+    setLoading(true);
 
+    try {
+      await update({
+        ...session,
+        user: {
+          ...session?.user,
+          name: user.name,
+          email: user.email,
+        },
+      });
+
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (err) {
+      console.error("Profile update failed:", err);
+    } finally {
+      setLoading(false);
+    }
+
+  };
   return (
     <main className="min-h-screen bg-slate-950 text-white p-4 sm:p-8">
       <div className="max-w-4xl mx-auto space-y-8">
-        
         {/* Page Title */}
         <div>
           <h1 className="text-3xl font-bold text-white">Account & Settings</h1>
@@ -46,7 +77,7 @@ export default function ProfilePage() {
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           {/* Left Column: User Profile Card */}
           <div className="md:col-span-1 bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-xl">
             <div className="w-24 h-24 rounded-full bg-gradient-to-tr flex items-center justify-center text-3xl font-extrabold text-white shadow-lg shadow-blue-500/20">
@@ -60,7 +91,7 @@ export default function ProfilePage() {
 
             {/* Role Badge */}
             <span className="px-3 py-1 bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase tracking-wider rounded-full">
-               {user.role}
+              {user.role}
             </span>
 
             <div className="w-full pt-4 border-t border-slate-800/80 text-xs text-slate-500 space-y-2">
@@ -80,14 +111,14 @@ export default function ProfilePage() {
                 href="/my-tickets"
                 className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 rounded-xl transition block border border-slate-700"
               >
-                 My Tickets Wallet
+                My Tickets Wallet
               </Link>
               {user.role === "ORGANIZER" && (
                 <Link
                   href="/dashboard"
                   className="w-full py-2.5 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/30 text-xs font-semibold text-blue-400 rounded-xl transition block"
                 >
-                 Organizer Dashboard
+                  Organizer Dashboard
                 </Link>
               )}
             </div>
@@ -95,7 +126,7 @@ export default function ProfilePage() {
 
           {/* Right Column: Settings Forms */}
           <div className="md:col-span-2 space-y-6">
-            
+
             {/* Form 1: Profile Information */}
             <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
               <h3 className="text-lg font-bold text-white border-b border-slate-800 pb-3">
@@ -143,7 +174,7 @@ export default function ProfilePage() {
               </h3>
 
               <div className="space-y-4 text-sm">
-                
+
                 {/* Toggle 1 */}
                 <div className="flex items-center justify-between">
                   <div>
